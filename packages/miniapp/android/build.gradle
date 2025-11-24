@@ -22,7 +22,7 @@ buildscript {
 }
 
 android {
-  compileSdkVersion 34
+  compileSdkVersion 35
 
   def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0].toInteger()
   if (agpVersion >= 7) {
@@ -30,17 +30,17 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_21
+    targetCompatibility JavaVersion.VERSION_21
   }
 
   kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.majorVersion
+    jvmTarget = '21'
   }
 
   defaultConfig {
-    minSdkVersion 24
-    targetSdkVersion 34
+    minSdkVersion 23
+    targetSdkVersion 35
     versionCode 1
     versionName "0.1.0"
   }
@@ -48,22 +48,28 @@ android {
   lintOptions {
     abortOnError false
   }
-  
-  // TODO Phase 1d: Add Capacitor dependencies
-  // dependencies {
-  //   implementation project(':capacitor-android')
-  // }
 }
 
 repositories {
   mavenCentral()
+  // 添加本地 AAR 庫的路徑
+  flatDir {
+    dirs 'libs'
+  }
 }
 
 dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
   
-  // Capacitor dependencies will be added in Phase 1d
-  // implementation project(':capacitor-android')
+  // MacaronCapacitorBridge - 使用預編譯的 AAR
+  // 這個 AAR 包含了所有 Capacitor 依賴
+  implementation(name: 'macaron-capacitor-bridge', ext: 'aar')
+  
+  // 添加 Capacitor AAR 需要的傳遞依賴
+  implementation 'androidx.appcompat:appcompat:1.6.1'
+  implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
+  implementation 'androidx.core:core-ktx:1.12.0'
+  implementation 'androidx.webkit:webkit:1.4.0'
 }
 

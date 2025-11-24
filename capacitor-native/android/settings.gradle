@@ -2,4 +2,8 @@ include ':app'
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 
+// MacaronCapacitorBridge - 封裝的 Capacitor 橋接庫
+include ':macaron-capacitor-bridge'
+project(':macaron-capacitor-bridge').projectDir = new File('./macaron-capacitor-bridge/')
+
 apply from: 'capacitor.settings.gradle'

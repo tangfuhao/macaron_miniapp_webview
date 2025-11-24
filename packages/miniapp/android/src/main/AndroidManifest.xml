@@ -1,4 +1,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- 基礎權限 -->
   <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  
+  <!-- Camera 相關 -->
+  <uses-permission android:name="android.permission.CAMERA" />
+  <uses-feature android:name="android.hardware.camera" android:required="false" />
+  <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+  
+  <!-- 位置相關 -->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+  
+  <!-- 文件系統相關 -->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+                   android:maxSdkVersion="32" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
+                   android:maxSdkVersion="32" />
+  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+  <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+  
+  <!-- 語音識別相關 -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  
+  <!-- 振動 -->
+  <uses-permission android:name="android.permission.VIBRATE" />
+  
+  <!-- 通知 -->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  
+  <!-- 讀取手機狀態（Device Info） -->
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>
 

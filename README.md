@@ -44,28 +44,46 @@ macaron_webview/
 
 ## 快速开始
 
-### 1. 安装 Capacitor 依赖
+### 🎯 方式 1: 运行示例项目（推荐）
+
+**最简单的验证方式**：
+
+```bash
+# 1. 进入示例项目
+cd example
+
+# 2. 安装依赖（会自动安装本地的 @macaron/miniapp）
+npm install
+
+# 3. 运行（iOS 或 Android）
+npx expo run:ios
+# 或
+npx expo run:android
+```
+
+**详细说明**：查看 [`EXAMPLE_GUIDE.md`](./EXAMPLE_GUIDE.md) 或 [`example/README.md`](./example/README.md)
+
+### 📦 方式 2: 在自己的项目中使用
+
+#### 1. 安装 Capacitor 依赖
 
 ```bash
 cd capacitor-native
 npm install
 ```
 
-### 2. 安装 Expo Module 依赖
+#### 2. 在您的 Expo 项目中引用
 
-```bash
-cd packages/miniapp
-npm install
+```json
+// 您的项目的 package.json
+{
+  "dependencies": {
+    "@macaron/miniapp": "file:../macaron_webview/packages/miniapp"
+  }
+}
 ```
 
-### 3. 构建 Expo Module
-
-```bash
-cd packages/miniapp
-npm run build
-```
-
-### 4. 在 Expo 项目中使用
+#### 3. 使用组件
 
 ```tsx
 import { MacaronMiniappView } from '@macaron/miniapp';
@@ -81,15 +99,25 @@ function App() {
 }
 ```
 
+#### 4. 运行
+
+```bash
+npx expo run:ios     # iOS
+npx expo run:android # Android
+```
+
+**⚠️ 注意**：不能在 Expo Go 中使用，必须使用开发构建。
+
 ## 当前状态
 
-**Phase 1c 完成** - 基础 WebView 功能已实现：
-- ✅ iOS: WKWebView 封装
-- ✅ Android: WebView 封装
-- ✅ TypeScript 接口定义
-- ✅ 事件系统（onLoadEnd, onError）
+**Phase 1d 完成** ✅ - Capacitor Bridge 集成完成：
+- ✅ iOS: 独立的 Capacitor WebView 实现
+- ✅ Android: 独立的 Capacitor WebView 实现
+- ✅ 17+ Capacitor 插件支持
+- ✅ 完整的生命周期管理
+- ✅ 源码依赖模式（capacitor-native 提供依赖）
 
-**下一步**：集成 Capacitor Bridge，实现完整的原生能力支持。
+**可以使用了！** 现在可以在 Expo 应用中使用完整的 Capacitor 功能。
 
 ## 技术栈
 

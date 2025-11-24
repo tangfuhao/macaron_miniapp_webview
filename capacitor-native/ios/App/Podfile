@@ -34,6 +34,10 @@ end
 
 target 'App' do
   capacitor_pods
+  
+  # MacaronCapacitorBridge - 封裝的 Capacitor 橋接框架
+  pod 'MacaronCapacitorBridge', :path => '../MacaronCapacitorBridge'
+  
   # Add your Pods here
 end
 

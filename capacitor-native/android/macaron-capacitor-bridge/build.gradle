@@ -1,0 +1,82 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    namespace "com.macaron.capacitor"
+    compileSdk rootProject.ext.compileSdkVersion
+    
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+    
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    // 參考 app/capacitor.build.gradle 的配置
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    
+    kotlinOptions {
+        jvmTarget = '21'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    
+    // AndroidX - 參考 app/build.gradle
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.webkit:webkit:1.4.0"
+    
+    // Capacitor 核心
+    api project(':capacitor-android')
+    
+    // Capacitor 插件 - 使用 api 以便傳遞給使用此 library 的模塊
+    api project(':capacitor-app')
+    api project(':capacitor-browser')
+    api project(':capacitor-camera')
+    api project(':capacitor-clipboard')
+    api project(':capacitor-device')
+    api project(':capacitor-filesystem')
+    api project(':capacitor-geolocation')
+    api project(':capacitor-haptics')
+    api project(':capacitor-keyboard')
+    api project(':capacitor-local-notifications')
+    api project(':capacitor-network')
+    api project(':capacitor-preferences')
+    api project(':capacitor-share')
+    api project(':capacitor-splash-screen')
+    api project(':capacitor-toast')
+    
+    // Community 插件
+    api project(':capacitor-community-speech-recognition')
+    api project(':capacitor-community-text-to-speech')
+    
+    // Cordova 插件
+    api project(':capacitor-cordova-android-plugins')
+}
+
+// 應用 Cordova 變量配置
+apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
+

@@ -24,6 +24,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# 開發階段排除生成的 xcframework（發布時需要包含）
+# 如果要發布到 npm，請在 prepublishOnly 時生成，並從 .gitignore 移除此行
+ios/MacaronCapacitorBridge.xcframework/
+
 # Android
 *.iml
 .gradle
@@ -31,4 +35,8 @@ project.xcworkspace
 local.properties
 *.apk
 *.aab
+
+# 開發階段排除生成的 AAR（發布時需要包含）
+# 如果要發布到 npm，請在 prepublishOnly 時生成，並從 .gitignore 移除此行
+android/libs/*.aar
 

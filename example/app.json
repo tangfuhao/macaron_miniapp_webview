@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "Macaron MiniApp Example",
+    "slug": "macaron-miniapp-example",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.macaron.miniapp.example",
+      "infoPlist": {
+        "NSCameraUsageDescription": "需要访问相机以拍摄照片",
+        "NSPhotoLibraryUsageDescription": "需要访问相册以选择照片",
+        "NSLocationWhenInUseUsageDescription": "需要访问位置信息",
+        "NSMicrophoneUsageDescription": "需要访问麦克风以录音"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.macaron.miniapp.example",
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": []
+  }
+}

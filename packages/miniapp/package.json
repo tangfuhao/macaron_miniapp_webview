@@ -6,13 +6,23 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "expo-module build",
+    "build:native": "cd ../.. && ./build-native-libs.sh",
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly",
+    "prepublishOnly": "npm run build && npm run build:native && expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
+  "files": [
+    "build/",
+    "android/",
+    "ios/",
+    "src/",
+    "*.md",
+    "*.podspec",
+    "expo-module.config.json"
+  ],
   "keywords": [
     "react-native",
     "expo",
