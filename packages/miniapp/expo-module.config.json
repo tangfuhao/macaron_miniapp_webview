@@ -1,0 +1,10 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["MacaronMiniappModule"]
+  },
+  "android": {
+    "modules": ["com.macaron.miniapp.MacaronMiniappModule"]
+  }
+}
+

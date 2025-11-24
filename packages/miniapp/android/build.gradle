@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+group = 'com.macaron.miniapp'
+version = '0.1.0'
+
+def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
+apply from: expoModulesCorePlugin
+applyKotlinExpoModulesCorePlugin()
+useExpoPublishing()
+
+buildscript {
+  def kotlinVersion = rootProject.ext.has('kotlinVersion') ? rootProject.ext.kotlinVersion : '1.8.10'
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+  }
+}
+
+android {
+  compileSdkVersion 34
+
+  def agpVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0].toInteger()
+  if (agpVersion >= 7) {
+    namespace "com.macaron.miniapp"
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.majorVersion
+  }
+
+  defaultConfig {
+    minSdkVersion 24
+    targetSdkVersion 34
+    versionCode 1
+    versionName "0.1.0"
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+  
+  // TODO Phase 1d: Add Capacitor dependencies
+  // dependencies {
+  //   implementation project(':capacitor-android')
+  // }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation project(':expo-modules-core')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
+  
+  // Capacitor dependencies will be added in Phase 1d
+  // implementation project(':capacitor-android')
+}
+
