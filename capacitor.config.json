@@ -1,0 +1,5 @@
+{
+  "appId": "com.macaron.miniapp",
+  "appName": "MacaronMiniAppWebview",
+  "webDir": "www"
+}
