@@ -20,37 +20,37 @@ Pod::Spec.new do |s|
   # 源文件
   s.source_files = 'Sources/**/*.{swift,h,m}'
   
-  # Capacitor 依賴 - 使用與 App/Podfile 相同的路徑配置
-  # 這樣在開發階段可以正確找到依賴
-  s.dependency 'Capacitor', :path => '../../node_modules/@capacitor/ios'
-  s.dependency 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  # Capacitor 核心依賴
+  # 注意：路徑配置在 Podfile 中，這裡只聲明依賴
+  s.dependency 'Capacitor'
+  s.dependency 'CapacitorCordova'
   
-  # Capacitor 插件依賴 - 使用完整路徑
-  s.dependency 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
-  s.dependency 'CapacitorBrowser', :path => '../../node_modules/@capacitor/browser'
-  s.dependency 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
-  s.dependency 'CapacitorClipboard', :path => '../../node_modules/@capacitor/clipboard'
-  s.dependency 'CapacitorDevice', :path => '../../node_modules/@capacitor/device'
-  s.dependency 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
-  s.dependency 'CapacitorGeolocation', :path => '../../node_modules/@capacitor/geolocation'
-  s.dependency 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'
-  s.dependency 'CapacitorKeyboard', :path => '../../node_modules/@capacitor/keyboard'
-  s.dependency 'CapacitorLocalNotifications', :path => '../../node_modules/@capacitor/local-notifications'
-  s.dependency 'CapacitorNetwork', :path => '../../node_modules/@capacitor/network'
-  s.dependency 'CapacitorPreferences', :path => '../../node_modules/@capacitor/preferences'
-  s.dependency 'CapacitorShare', :path => '../../node_modules/@capacitor/share'
-  s.dependency 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
-  s.dependency 'CapacitorToast', :path => '../../node_modules/@capacitor/toast'
+  # Capacitor 官方插件
+  s.dependency 'CapacitorApp'
+  s.dependency 'CapacitorBrowser'
+  s.dependency 'CapacitorCamera'
+  s.dependency 'CapacitorClipboard'
+  s.dependency 'CapacitorDevice'
+  s.dependency 'CapacitorFilesystem'
+  s.dependency 'CapacitorGeolocation'
+  s.dependency 'CapacitorHaptics'
+  s.dependency 'CapacitorKeyboard'
+  s.dependency 'CapacitorLocalNotifications'
+  s.dependency 'CapacitorNetwork'
+  s.dependency 'CapacitorPreferences'
+  s.dependency 'CapacitorShare'
+  s.dependency 'CapacitorSplashScreen'
+  s.dependency 'CapacitorToast'
   
-  # Community 插件
-  s.dependency 'CapacitorCommunitySpeechRecognition', :path => '../../node_modules/@capacitor-community/speech-recognition'
-  s.dependency 'CapacitorCommunityTextToSpeech', :path => '../../node_modules/@capacitor-community/text-to-speech'
+  # Capacitor 社群插件
+  s.dependency 'CapacitorCommunitySpeechRecognition'
+  s.dependency 'CapacitorCommunityTextToSpeech'
   
   # Cordova 插件
-  s.dependency 'CordovaPlugins', :path => '../capacitor-cordova-ios-plugins'
-  s.dependency 'CordovaPluginsResources', :path => '../capacitor-cordova-ios-plugins'
+  s.dependency 'CordovaPlugins'
+  s.dependency 'CordovaPluginsResources'
   
-  # Framework 設置
+  # Framework 設置 - 使用靜態框架以便合併
   s.static_framework = true
 end
 

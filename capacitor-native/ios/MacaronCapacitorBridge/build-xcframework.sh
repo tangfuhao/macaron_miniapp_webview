@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # build-xcframework.sh
-# 編譯 MacaronCapacitorBridge.xcframework
-# 這個腳本會創建一個包含模擬器和真機架構的 XCFramework
+# 編譯 MacaronCapacitorBridge.xcframework 及所有依賴
+# 這個腳本會創建包含模擬器和真機架構的 XCFrameworks
 
 set -e
 
@@ -11,6 +11,7 @@ SCHEME_NAME="MacaronCapacitorBridge"
 BUILD_DIR="./build"
 OUTPUT_DIR="./Products"
 WORKSPACE="../App/App.xcworkspace"
+MINIAPP_IOS="../../../packages/miniapp/ios"
 
 echo "🚀 開始編譯 ${FRAMEWORK_NAME}.xcframework..."
 
@@ -65,21 +66,103 @@ xcodebuild -create-xcframework \
   -framework "${BUILD_DIR}/ios-simulator.xcarchive/Products/Library/Frameworks/${FRAMEWORK_NAME}.framework" \
   -output "${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework"
 
-echo "✅ XCFramework 編譯完成!"
-echo "📍 位置: ${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework"
+echo "✅ MacaronCapacitorBridge.xcframework 編譯完成!"
 
-# 複製到 miniapp 的 ios 目錄
-MINIAPP_IOS="../../../packages/miniapp/ios"
-mkdir -p "${MINIAPP_IOS}"
-echo "📋 複製到 miniapp..."
-rm -rf "${MINIAPP_IOS}/${FRAMEWORK_NAME}.xcframework"
-cp -R "${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework" "${MINIAPP_IOS}/"
+# ========================================
+# 複製所有 XCFrameworks 到 miniapp/ios
+# ========================================
 
-echo "🎉 完成！XCFramework 已準備好供 miniapp 使用"
 echo ""
-echo "📝 注意事項:"
-echo "   1. XCFramework 已複製到: ${MINIAPP_IOS}/${FRAMEWORK_NAME}.xcframework"
-echo "   2. miniapp 的 podspec 應配置為使用 vendored_frameworks"
-echo "   3. 發布到 npm 時需要包含此 xcframework"
-echo "   4. xcframework 大小較大，建議在 .gitignore 排除（開發階段生成）"
+echo "📋 複製所有 XCFrameworks 到 packages/miniapp/ios..."
 
+# 清理舊的 xcframeworks
+rm -rf "${MINIAPP_IOS}"/*.xcframework
+mkdir -p "${MINIAPP_IOS}"
+
+# 1. 複製 MacaronCapacitorBridge
+cp -R "${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework" "${MINIAPP_IOS}/"
+echo "  ✓ ${FRAMEWORK_NAME}.xcframework"
+
+# 2. 從構建的 archive 中為每個 Capacitor framework 創建 XCFramework
+ARCHIVE_FRAMEWORKS="${BUILD_DIR}/ios-simulator.xcarchive/Products/Library/Frameworks"
+
+for fw in "${ARCHIVE_FRAMEWORKS}"/*.framework; do
+    if [ -d "$fw" ]; then
+        fw_name=$(basename "$fw" .framework)
+        if [ "$fw_name" != "$FRAMEWORK_NAME" ]; then
+            xcodebuild -create-xcframework \
+              -framework "${BUILD_DIR}/ios.xcarchive/Products/Library/Frameworks/${fw_name}.framework" \
+              -framework "${BUILD_DIR}/ios-simulator.xcarchive/Products/Library/Frameworks/${fw_name}.framework" \
+              -output "${MINIAPP_IOS}/${fw_name}.xcframework" \
+              > /dev/null 2>&1 && echo "  ✓ ${fw_name}.xcframework" || echo "  ⚠️ ${fw_name} 創建失敗"
+        fi
+    fi
+done
+
+# 3. 複製 ION 依賴庫（從 Pods 目錄）
+PODS_DIR="../App/Pods"
+for ion_pod in "${PODS_DIR}"/ION*; do
+    if [ -d "$ion_pod" ]; then
+        ion_name=$(basename "$ion_pod")
+        if [ -d "${ion_pod}/${ion_name}.xcframework" ]; then
+            cp -R "${ion_pod}/${ion_name}.xcframework" "${MINIAPP_IOS}/"
+            echo "  ✓ ${ion_name}.xcframework (from Pods)"
+        fi
+    fi
+done
+
+# ========================================
+# 更新 podspec 中的 vendored_frameworks
+# ========================================
+
+echo ""
+echo "📝 更新 MacaronMiniapp.podspec..."
+
+# 生成 podspec
+cat > "${MINIAPP_IOS}/MacaronMiniapp.podspec" << 'PODSPEC_HEADER'
+Pod::Spec.new do |s|
+  s.name           = 'MacaronMiniapp'
+  s.version        = '1.0.0'
+  s.summary        = 'Macaron Mini App Loader - Web app container with Capacitor integration'
+  s.description    = 'A powerful webview component for React Native with Capacitor bridge support'
+  s.author         = 'Macaron Team'
+  s.homepage       = 'https://github.com/yourusername/macaron-miniapp'
+  s.platforms      = { :ios => '15.1' }
+  s.source         = { git: '' }
+  s.static_framework = true
+
+  s.dependency 'ExpoModulesCore'
+  
+  # 使用預編譯的 XCFrameworks
+  s.vendored_frameworks = [
+PODSPEC_HEADER
+
+# 添加所有 xcframeworks（只取目錄名）
+for fw_path in "${MINIAPP_IOS}"/*.xcframework; do
+    if [ -d "$fw_path" ]; then
+        fw_name=$(basename "$fw_path")
+        echo "    '${fw_name}'," >> "${MINIAPP_IOS}/MacaronMiniapp.podspec"
+    fi
+done
+
+cat >> "${MINIAPP_IOS}/MacaronMiniapp.podspec" << 'PODSPEC_FOOTER'
+  ]
+  
+  s.swift_version = '5.0'
+  s.source_files = "*.{h,m,mm,swift,hpp,cpp}"
+  s.exclude_files = "*.xcframework/**/*"
+end
+PODSPEC_FOOTER
+
+# 統計 xcframework 數量
+FRAMEWORK_COUNT=$(find "${MINIAPP_IOS}" -maxdepth 1 -name "*.xcframework" -type d | wc -l | tr -d ' ')
+
+echo ""
+echo "🎉 完成！打包結果："
+echo ""
+echo "📍 XCFrameworks 位置: ${MINIAPP_IOS}/"
+echo "   共 ${FRAMEWORK_COUNT} 個 XCFrameworks"
+echo ""
+echo "📄 Podspec: ${MINIAPP_IOS}/MacaronMiniapp.podspec"
+echo ""
+echo "下一步: 在 example/ios 目錄執行 'pod install' 然後 'npx expo run:ios'"

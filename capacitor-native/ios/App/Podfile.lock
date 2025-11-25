@@ -63,6 +63,8 @@ PODS:
     - CapacitorShare
     - CapacitorSplashScreen
     - CapacitorToast
+    - CordovaPlugins
+    - CordovaPluginsResources
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -163,8 +165,8 @@ SPEC CHECKSUMS:
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   IONFilesystemLib: 89258b8e3e85465da93127d25d7ce37f977e8a6f
   IONGeolocationLib: 20f9d0248a0b5264511fb57a37e25dd2badf797a
-  MacaronCapacitorBridge: 1e33df31fc790a6333a65d87b0261c57143aac9d
+  MacaronCapacitorBridge: d6ec64ce78b254c60bcc540e829b05306b8aae0f
 
-PODFILE CHECKSUM: 7e504a8962e89493e0ab946615e62580e9156ad5
+PODFILE CHECKSUM: c72a6cdf880fb2c7e93abdaea00d5258a59e6ecd
 
 COCOAPODS: 1.16.2

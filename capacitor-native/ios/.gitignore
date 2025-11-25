@@ -15,3 +15,6 @@ App/App/config.xml
 # Generated XCFramework
 MacaronCapacitorBridge/build
 MacaronCapacitorBridge/Products
+
+build/
+build-all/

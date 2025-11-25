@@ -1,7 +1,8 @@
 require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 
-platform :ios, '14.0'
-use_frameworks!
+platform :ios, '15.1'
+# 使用靜態 frameworks，這樣可以合併所有依賴到一個 XCFramework
+use_frameworks! :linkage => :static
 
 # workaround to avoid Xcode caching of Pods that requires
 # Product -> Clean Build Folder after new Cordova plugins installed

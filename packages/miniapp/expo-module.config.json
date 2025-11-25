@@ -1,10 +1,12 @@
 {
   "platforms": ["ios", "android"],
   "ios": {
-    "modules": ["MacaronMiniappModule"]
+    "modules": ["MacaronMiniappModule"],
+    "viewManagers": ["MacaronMiniappModule"]
   },
   "android": {
-    "modules": ["com.macaron.miniapp.MacaronMiniappModule"]
+    "modules": ["com.macaron.miniapp.MacaronMiniappModule"],
+    "viewManagers": ["com.macaron.miniapp.MacaronMiniappModule"]
   }
 }
 

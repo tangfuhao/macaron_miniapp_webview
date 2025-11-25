@@ -161,13 +161,15 @@ import WebKit
     
     /// 獲取 Bridge 實例（用於高級用途）
     /// - Returns: CapacitorBridge 協議實例
-    @objc public func getBridge() -> CAPBridgeProtocol? {
+    /// - Note: 內部使用，不暴露 Capacitor 類型到公開 API
+    @objc public func getBridge() -> Any? {
         return bridgeViewController?.bridge
     }
     
     /// 獲取 BridgeViewController（用於需要 ViewController 的場景）
     /// - Returns: CAPBridgeViewController 實例
-    @objc public func getBridgeViewController() -> CAPBridgeViewController? {
+    /// - Note: 內部使用，不暴露 Capacitor 類型到公開 API
+    @objc public func getBridgeViewController() -> Any? {
         return bridgeViewController
     }
 }
